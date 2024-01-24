@@ -1,0 +1,54 @@
+﻿@model IEnumerable<OnlineVoteApplication.Models.AdminUsers>
+
+@{
+    ViewData["Title"] = "ViewAdminUsers";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>View Admin Users</h1>
+
+<p>
+    <a asp-action="CreateAdminUsers" class="btn btn-primary" style="color:#fff">Create Admin Users</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AdminName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MobileNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AdminName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MobileNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                <a asp-action="AdminUsersEdit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="AdminUsersDetails" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="AdminUsersDelete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

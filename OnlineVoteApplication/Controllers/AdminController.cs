@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OnlineVoteApplication.Migrations;
 using OnlineVoteApplication.Models;
+using System.Diagnostics.Metrics;
 using System.IO;
 
 namespace OnlineVoteApplication.Controllers
@@ -479,8 +480,23 @@ namespace OnlineVoteApplication.Controllers
         }
         public IActionResult CreateContestent()
         {
-            ViewBag.PartyName = new SelectList(_context.PartyManagements.ToList(), "PartyName", "PartyName", _context.PartyManagements.Select(x=> x.PartyName).ToList());
-            ViewBag.Symbol = new SelectList(_context.PartyManagements.ToList(), "Symbol", "Symbol", _context.PartyManagements.Select(x=> x.Symbol).ToList());
+            List<PartyManagement> partyName = new List<PartyManagement>();
+            partyName.Clear();
+            partyName = _context.PartyManagements.ToList();
+            partyName.Insert(0, new PartyManagement { PartyName = "--Select Party Name--" });
+            ViewBag.PartyName = new SelectList(partyName.Select(x=> x.PartyName).ToList());
+
+            List<PartyManagement> symbol = new List<PartyManagement>();
+            symbol.Clear();
+            symbol = _context.PartyManagements.ToList();
+            symbol.Insert(0, new PartyManagement { Symbol = "--Select Symbol--" });
+            ViewBag.Symbol = new SelectList(symbol.Select(x => x.Symbol).ToList());
+
+            List<Mpseat> stateList = new List<Mpseat>();
+            stateList.Clear();
+            stateList = _context.Mpseats.ToList();
+            stateList.Insert(0, new Mpseat { State = "--Select State--" });
+            ViewBag.State = new SelectList(stateList.Select(x => x.State).ToList());
             return View();
         }
         [HttpPost]
@@ -634,6 +650,138 @@ namespace OnlineVoteApplication.Controllers
             ViewBag.Congrass = await _context.VotingSystem.CountAsync(x => x.PartyName == "Congrass");
 
             return View();
+        }
+
+        public async Task<IActionResult> ViewAdminUsers()
+        {
+            return _context.AdminUsers != null ?
+                        View(await _context.AdminUsers.ToListAsync()) :
+                        Problem("AdminUsers List is Empty.");
+        }
+        public IActionResult CreateAdminUsers()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateAdminUsers(AdminUsers adminUsers)
+        {
+            if (ModelState.IsValid)
+            {
+                var checkParty = _context.AdminUsers.Where(x => x.EmailID == adminUsers.EmailID).FirstOrDefault();
+                if (checkParty == null)
+                {
+                    adminUsers.CreatedDate = DateTime.Now;
+                    _context.Add(adminUsers);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(ViewAdminUsers));
+                }
+            }
+            return View(adminUsers);
+        }
+
+        public async Task<IActionResult> AdminUsersEdit(int? id)
+        {
+            if (id == null || _context.AdminUsers == null)
+            {
+                return NotFound();
+            }
+
+            var party = await _context.AdminUsers.FindAsync(id);
+            if (party == null)
+            {
+                return NotFound();
+            }
+            return View(party);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminUsersEdit(int id, AdminUsers adminUsers)
+        {
+            if (id != adminUsers.Id)
+            {
+                return NotFound();
+            }
+
+            var checkUser = _context.AdminUsers.Where(x => x.EmailID == adminUsers.EmailID).FirstOrDefault();
+            try
+            {
+                if (checkUser != null)
+                {
+                    adminUsers.ModifiedDate = DateTime.Now;
+                    adminUsers.CreatedDate = checkUser.CreatedDate;
+                    adminUsers.Password = checkUser.Password;
+                    _context.Update(adminUsers);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!AdminUsersExists(adminUsers.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(ViewAdminUsers));
+        }
+        public async Task<IActionResult> AdminUsersDetails(int? id)
+        {
+            if (id == null || _context.AdminUsers == null)
+            {
+                return NotFound();
+            }
+
+            var party = await _context.AdminUsers
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (party == null)
+            {
+                return NotFound();
+            }
+
+            return View(party);
+        }
+        public async Task<IActionResult> AdminUsersDelete(int? id)
+        {
+            if (id == null || _context.AdminUsers == null)
+            {
+                return NotFound();
+            }
+
+            var party = await _context.AdminUsers
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (party == null)
+            {
+                return NotFound();
+            }
+
+            return View(party);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminUsersConfirmed(int id)
+        {
+            if (_context.AdminUsers == null)
+            {
+                return Problem("Entity set 'OnlineVoteApplicationContext.Voters'  is null.");
+            }
+            var adminUsers = await _context.AdminUsers.FindAsync(id);
+            if (adminUsers != null)
+            {
+                _context.AdminUsers.Remove(adminUsers);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(ViewAdminUsers));
+        }
+        private bool AdminUsersExists(int id)
+        {
+            return (_context.AdminUsers?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
