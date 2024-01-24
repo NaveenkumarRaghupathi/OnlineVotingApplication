@@ -1,0 +1,55 @@
+﻿@model OnlineVoteApplication.Models.LoginModel
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2 style="color: #fb7633;text-align:center">Welcome to Online Voting Application</h2>
+
+<h3>Sign in</h3>
+
+@using (Html.BeginForm("Login", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="row">
+    <div class="col-md-4">
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                        @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @autocomplete = "off", @type = "email" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div><br/>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Sign in" class="btn btn-primary" />
+                        @Html.ActionLink("New Voter Registration", "Create", "Voters", null, new { @class = "btn btn-success" })
+            </div>
+        </div><br/>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                        <label class="label-danger" style="color:red">@ViewBag.AlreadyExist</label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <label class="label-danger" style="color:red">@ViewBag.InvalidMessage</label>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+}

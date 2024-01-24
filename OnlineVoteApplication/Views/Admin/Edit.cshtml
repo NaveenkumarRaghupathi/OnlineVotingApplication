@@ -1,0 +1,64 @@
+﻿@model OnlineVoteApplication.Models.Voter
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Edit Voter</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="VoterName" class="control-label"></label>
+                <input asp-for="VoterName" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="VoterName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MobileNo" class="control-label"></label>
+                <input asp-for="MobileNo" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="MobileNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailId" class="control-label"></label>
+                <input asp-for="EmailId" class="form-control" readonly />
+                <span asp-validation-for="EmailId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsValidUser" class="control-label"></label>
+                <input asp-for="IsValidUser" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="IsValidUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IsApprovedUser" class="control-label"></label>
+                <input asp-for="IsApprovedUser" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="IsApprovedUser" class="text-danger"></span>
+            </div><br />
+           
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+
+            <div class="form-group">
+                <label class="label-danger" style="color:red">@ViewBag.AgeMessage</label>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ViewVoters">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

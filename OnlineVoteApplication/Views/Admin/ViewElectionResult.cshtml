@@ -1,0 +1,71 @@
+﻿@model IEnumerable<OnlineVoteApplication.Models.VotingSystem>
+
+@{
+    ViewData["Title"] = "ViewElectionResult";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Election Result</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestentImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContestentEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PartyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Symbol)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VoterName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VoterEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+             <td>
+                <img src="~/images/@item.ContestentImage" class="img-circle" alt="NoImage" width="100" height="50" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContestentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContestentEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PartyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Symbol)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VoterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VoterEmail)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+           
+        </tr>
+}
+    </tbody>
+</table>

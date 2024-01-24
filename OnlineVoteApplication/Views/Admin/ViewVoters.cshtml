@@ -1,0 +1,84 @@
+﻿@model IEnumerable<OnlineVoteApplication.Models.Voter>
+
+@{
+    ViewData["Title"] = "ViewVoters";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>View Voters</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.IDProofImage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VoterName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MobileNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EmailId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsValidUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsApprovedUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+             <td>
+                    <img src="~/images/@item.IDProofImage" class="img-circle" alt="NoImage" width="100" height="50" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VoterName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MobileNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailId)
+            </td>
+            <td>
+                    @if (item.IsValidUser != null)
+                    {
+                        @(item.IsValidUser != null ? "Valid User" : item.IsValidUser)
+                    }
+            </td>
+            <td>
+                    @if (item.IsApprovedUser != null)
+                    {
+                        @(item.IsApprovedUser != null ? "Approved User" : item.IsApprovedUser)
+                    }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="ApproveUser" asp-route-id="@item.Id">Approve user</a> |
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

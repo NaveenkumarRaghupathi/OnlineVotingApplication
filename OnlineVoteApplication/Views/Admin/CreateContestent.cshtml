@@ -1,0 +1,74 @@
+﻿@model OnlineVoteApplication.Models.ContestManagementRequest
+
+@{
+    ViewData["Title"] = "CreateContestent";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Create Contestent</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateContestent" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ContestentName" class="control-label"></label>
+                <input asp-for="ContestentName" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="ContestentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MobileNo" class="control-label"></label>
+                <input asp-for="MobileNo" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="MobileNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EmailId" class="control-label"></label>
+                <input type="email" asp-for="EmailId" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="EmailId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PartyName" class="control-label"></label>
+                @Html.DropDownList("PartyName", (SelectList)ViewBag.PartyName, new { @class = "form-control", @required = "required" })
+                <span asp-validation-for="PartyName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Symbol" class="control-label"></label>
+                @Html.DropDownList("Symbol", (SelectList)ViewBag.Symbol, new { @class = "form-control", @required = "required" })
+                <span asp-validation-for="Symbol" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <input asp-for="State" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="City" class="control-label"></label>
+                <input asp-for="City" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="City" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContestentImage" class="control-label"></label>
+                <input type="file" asp-for="ContestentImage" class="form-control" required="required" />
+                <span asp-validation-for="ContestentImage" class="text-danger"></span>
+            </div><br />
+           
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ViewContestent">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

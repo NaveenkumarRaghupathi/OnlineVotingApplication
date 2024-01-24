@@ -1,0 +1,49 @@
+﻿@model OnlineVoteApplication.Models.PartyManagement
+
+@{
+    ViewData["Title"] = "PartyDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Party Details</h1>
+
+<div>
+    <h4>Party Management</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PartyName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PartyName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Symbol)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Symbol)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PartyImage)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PartyImage)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ModifiedDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="ViewParty">Back to List</a>
+</div>

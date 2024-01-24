@@ -1,0 +1,41 @@
+﻿@model OnlineVoteApplication.Models.Mpseat
+
+@{
+    ViewData["Title"] = "MPSeatsEdit";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>MP Seats Edit</h1>
+
+<h4>MP Seats</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="MPSeatsEdit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="State" class="control-label"></label>
+                <input asp-for="State" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="State" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NoOfSeats" class="control-label"></label>
+                <input asp-for="NoOfSeats" class="form-control" required="required" autocomplete="off" />
+                <span asp-validation-for="NoOfSeats" class="text-danger"></span>
+            </div><br />
+            
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ViewMPSeats">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
